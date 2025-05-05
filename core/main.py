@@ -21,11 +21,11 @@ def setup_name(meessage):
 
 def assign_first_name(message):
     first_name = message.text
-    bot.send_message(message.chat.id,f'what is ur last name{first_name}?')
-    bot.register_next_step_handler(message,assign_last_name)
+    bot.send_message(message.chat.id,f'what is ur last name {first_name}?')
+    bot.register_next_step_handler(message,assign_last_name,first_name)
 
 def assign_last_name(message,first_name):
-    last_name = message.chat.id
+    last_name = message.text
     bot.send_message(message.chat.id,f'well well welcome {first_name} {last_name} to my bot :)')
 
 
