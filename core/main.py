@@ -1,6 +1,7 @@
 import telebot
 import os
 import logging
+from telebot.types import ReplyKeyboardMarkup, KeyboardButton
 
 logger = telebot.logger
 telebot.logger.setLevel(logging.INFO)
@@ -10,10 +11,18 @@ bot = telebot.TeleBot(API_TOKEN)
 @bot.message_handler(commands=['help', 'start'])
 def send_welcome(message):
     logger.info("triggered welcome")
-    bot.reply_to(message, """\
-Hi there :D
-""")
-    
+    markup = ReplyKeyboardMarkup(resize_keyboard=True,input_field_placeholder="choose your option: ",one_time_keyboard=True)
+    markup.add(KeyboardButton('help'),KeyboardButton('Meow'))
+    bot.send_message(message.chat.id, """Hi there :D""",reply_markup=markup)
+
+
+@bot.message_handler(func= lambda message: message.text == "Meow")
+def send_Meow(message):
+    bot.send_message(message.chat.id,"""hey meow meow""") 
+@bot.message_handler(func= lambda message: message.text == "help")
+def send_Meow(message):
+    bot.send_message(message.chat.id,"""hey what do u need baby?""") 
+
 @bot.message_handler(commands=['setname'])
 def setup_name(meessage):
     bot.send_message(meessage.chat.id,"what is your first name brother?")
@@ -27,6 +36,8 @@ def assign_first_name(message):
 def assign_last_name(message,first_name):
     last_name = message.text
     bot.send_message(message.chat.id,f'well well welcome {first_name} {last_name} to my bot :)')
+
+
 
 
 
