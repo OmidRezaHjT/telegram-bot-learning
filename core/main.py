@@ -1,7 +1,7 @@
 import telebot
 import os
 import logging
-from telebot.types import ReplyKeyboardMarkup, KeyboardButton
+from telebot.types import InlineKeyboardButton,InlineKeyboardMarkup
 
 logger = telebot.logger
 telebot.logger.setLevel(logging.INFO)
@@ -11,8 +11,9 @@ bot = telebot.TeleBot(API_TOKEN)
 @bot.message_handler(commands=['help', 'start'])
 def send_welcome(message):
     logger.info("triggered welcome")
-    markup = ReplyKeyboardMarkup(resize_keyboard=True,input_field_placeholder="choose your option: ",one_time_keyboard=True)
-    markup.add(KeyboardButton('help'),KeyboardButton('Meow'))
+    markup = InlineKeyboardMarkup()
+    google_button = InlineKeyboardButton("google",url="https://google.com")
+    markup.add(google_button)
     bot.send_message(message.chat.id, """Hi there :D""",reply_markup=markup)
 
 
