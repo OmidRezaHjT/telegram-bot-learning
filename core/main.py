@@ -12,9 +12,19 @@ bot = telebot.TeleBot(API_TOKEN)
 def send_welcome(message):
     logger.info("triggered welcome")
     markup = InlineKeyboardMarkup()
-    google_button = InlineKeyboardButton("google",url="https://google.com")
-    markup.add(google_button)
+    button_google = InlineKeyboardButton("google",url="https://google.com")
+    button_test = InlineKeyboardButton('Test',callback_data="Test")
+    markup.add(button_google)
+    markup.add(button_test)
+
     bot.send_message(message.chat.id, """Hi there :D""",reply_markup=markup)
+
+@bot.callback_query_handler(func= lambda call:True)
+def reply_call(call):
+    if call.data == "Test":
+        bot.answer_callback_query(call.id,"clicked on test",show_alert=True)
+
+
 
 
 @bot.message_handler(func= lambda message: message.text == "Meow")
