@@ -3,6 +3,7 @@ import os
 import logging
 import io
 from PIL import Image
+from telebot.types import InlineQueryResultArticle , InputTextMessageContent
 
 API_TOKEN = os.environ.get('API_TOKEN')
 bot = telebot.TeleBot(API_TOKEN)
@@ -34,5 +35,29 @@ def pic_comp(message):
     with open(file_path, 'rb') as photo_file:
         bot.send_chat_action(chat_id=message.chat.id,action='upload_photo')
         bot.send_photo(message.chat.id, photo_file, caption="Enjoy 💙")
+
+@bot.inline_handler(func= lambda query: True)
+def query_handler(query):
+    logger.info(query)
+    results=[]
+    results.append(
+        InlineQueryResultArticle(
+            id='1',
+            title='Join the bot',
+            input_message_content=InputTextMessageContent(message_text='Join the bot'),
+            url='https://t.me/LrnPy044Bot'
+            )
+        
+    )
+    results.append(
+        InlineQueryResultArticle(
+            id='2',
+            title='check website',
+            input_message_content=InputTextMessageContent(message_text='https://camoshan.ir'),
+            url='https://camoshan.ir'
+            )
+        
+    )
+    bot.answer_inline_query(query.id,results,cache_time=0)
     
 bot.infinity_polling()
